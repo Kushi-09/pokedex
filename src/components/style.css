@@ -1,90 +1,186 @@
-*{
-    padding:0;
+* {
+    padding: 0;
     margin: 0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-body{
-    background-color: rgb(232, 232, 159);
+
+body {
+    background-color: rgb(241, 241, 171);
 }
-.container{
+
+.container {
     width: 90%;
     margin: auto;
-    padding-top:100px ;
+    padding-top: 100px;
     display: flex;
-
+    flex-direction: column;
 }
-.left-content, .right-content{
-    flex-basis: 50%;
 
+.left-content, .right-content {
+    flex-basis: 100%;
 }
-.left-content{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minimax(200px,0.5fr));
+
+.left-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 2rem;
-   
 }
-.card{
-    width: 300px;
-    background-color: aliceblue;
-    border-radius:1rem;
-    box-shadow: 0 5px 5px rgb(0,0,0,5);
-    padding: 0 1.5rem;
+
+.card {
+    width: 100%;
+    max-width: 300px;
+  background:rgb(142, 220, 206);
+    border-radius: 1rem;
+    box-shadow: 0 5px 5px rgba(24, 23, 23, 0.5);
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-sizing:border-box;
-
+    box-sizing: border-box;
+    margin: auto;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-.right-content{
-    width: 50%;
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.right-content {
+    width: 100%;
     text-align: center;
     color: black;
-    position:fixed;
-    top:100px;
-    right:10px;
+    margin-top: 2rem;
+    position: relative;
+    overflow-y: auto;
+    max-height: calc(100vh - 150px); /* Adjusts height for top padding and margin */
 }
-.right-content img{
-    margin:4rem;
+
+.right-content img {
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 200px;
 }
-.right-content h1{
-    text-transform:uppercase;
+
+.right-content h1 {
+    text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
-
 }
-.abilities{
-    width: 30%;
+
+.abilities {
+    width: 80%;
     margin: auto;
-    display:flex;
+    display: flex;
     justify-content: space-around;
     align-items: center;
     margin-top: 1rem;
 }
-.abilities .group{
+
+.abilities .group {
     background-color: #b74555;
     color: white;
-    padding:0.5rem ;
+    padding: 0.5rem;
     font-size: 12px;
-    border-radius:8px;
-}
-.base-stat{
-    margin-top:2rem;
+    border-radius: 5px;
 }
 
-.btn-group{
+.base-stat {
+    margin-top: 2rem;
+}
+
+.btn-group {
     display: flex;
-
+    justify-content: space-between;
 }
-.btn-group button{
+
+.btn-group button {
     outline: none;
     border: none;
     width: 100px;
     padding: 0.3rem 0;
-    margin:1rem;
+    margin: 1rem;
     font-size: 18px;
     font-weight: bold;
     color: white;
     background-color: #b74555;
     border-radius: 8px;
-
 }
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .left-content, .right-content {
+        flex-basis: 50%;
+    }
+
+    .right-content {
+        position: fixed;
+        top: 100px;
+        right: 10px;
+        width: 45%;
+    }
+
+    .right-content img {
+        margin: 2rem auto;
+        width: 80%;
+        max-width: 150px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding-top: 50px;
+    }
+
+    .right-content {
+        top: 50px;
+        right: 50px;
+    }
+}
+
+h1.top {
+    background: rgb(142, 220, 206);
+    color: rgb(6, 4, 9);
+    text-align: center;
+    text-decoration: underline;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0.1rem;
+    margin-bottom: 2rem;
+    
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 2);
+    font-size: 3.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+h1.top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-25deg);
+    transition: left 0.7s ease-in-out;
+}
+
+h1.top:hover::before {
+    left: 125%;
+}
+
+h1.top span {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+h1.top:hover span {
+    transform: scale(1.1);
+}
+
+

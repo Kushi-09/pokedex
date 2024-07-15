@@ -35,8 +35,10 @@ const Main = () => {
     }, [url]);
 
     return (
-        <>
+        
+        <><div><h1 className="top">POKEDEX</h1></div>
             <div className="container">
+                
                 <div className="left-content">
                     <Card pokemon={pokeData} loading={loading} infoPokemon={poke => setPokeDex(poke)} />
                     <div className="btn-group">
