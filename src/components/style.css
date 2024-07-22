@@ -1,6 +1,9 @@
+
+
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -9,71 +12,126 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 95%;
+    max-width: 1400px;
     margin: auto;
-    padding-top: 100px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-}
-
-.left-content, .right-content {
-    flex-basis: 100%;
 }
 
 .left-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 2rem;
+    gap: 1rem;
 }
 
 .card {
     width: 100%;
-    max-width: 300px;
-  background:rgb(142, 220, 206);
+    background: rgb(142, 220, 206);
     border-radius: 1rem;
     box-shadow: 0 5px 5px rgba(24, 23, 23, 0.5);
     padding: 1rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
-    margin: auto;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-id {
+    align-self: flex-start;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.card-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+}
+
+.type-pills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.type-pill {
+    display: inline-block;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    margin: 2px;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+}
+
+.sound-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.sound-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
 }
 
 .right-content {
     width: 100%;
     text-align: center;
     color: black;
-    margin-top: 2rem;
-    position: relative;
-    overflow-y: auto;
-    max-height: calc(100vh - 150px); /* Adjusts height for top padding and margin */
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: rgb(241, 241, 171);
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .right-content img {
-    margin: 2rem auto;
     width: 80%;
-    max-width: 200px;
+    max-width: 300px;
+    margin: 1rem auto;
 }
 
 .right-content h1 {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
+    margin-bottom: 1rem;
 }
 
 .abilities {
-    width: 80%;
-    margin: auto;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     margin-top: 1rem;
 }
 
@@ -81,7 +139,8 @@ body {
     background-color: #b74555;
     color: white;
     padding: 0.5rem;
-    font-size: 12px;
+    margin: 0.5rem;
+    font-size: 0.9rem;
     border-radius: 5px;
 }
 
@@ -91,54 +150,27 @@ body {
 
 .btn-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 .btn-group button {
     outline: none;
     border: none;
-    width: 100px;
-    padding: 0.3rem 0;
-    margin: 1rem;
-    font-size: 18px;
+    width: 150px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    font-size: 1rem;
     font-weight: bold;
     color: white;
     background-color: #b74555;
     border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-@media (min-width: 768px) {
-    .container {
-        flex-direction: row;
-    }
-
-    .left-content, .right-content {
-        flex-basis: 50%;
-    }
-
-    .right-content {
-        position: fixed;
-        top: 100px;
-        right: 10px;
-        width: 45%;
-    }
-
-    .right-content img {
-        margin: 2rem auto;
-        width: 80%;
-        max-width: 150px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .container {
-        padding-top: 50px;
-    }
-
-    .right-content {
-        top: 50px;
-        right: 50px;
-    }
+.btn-group button:hover {
+    background-color: #963746;
 }
 
 h1.top {
@@ -147,40 +179,84 @@ h1.top {
     text-align: center;
     text-decoration: underline;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 0.1rem;
+    padding: 1rem;
     margin-bottom: 2rem;
-    
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 2);
-    font-size: 3.5rem;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+    font-size: 2.5rem;
     font-weight: bold;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     position: relative;
     overflow: hidden;
 }
 
-h1.top::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: skewX(-25deg);
-    transition: left 0.7s ease-in-out;
+/* Media Queries */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .left-content {
+        width: 48%;
+        order: 1;
+    }
+
+    .right-content {
+        width: 48%;
+        order: 2;
+        margin-top: 0;
+        margin-bottom: 0;
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+
+    h1.top {
+        font-size: 3rem;
+    }
 }
 
-h1.top:hover::before {
-    left: 125%;
+@media (min-width: 1024px) {
+    .container {
+        padding-top: 50px;
+    }
+
+    h1.top {
+        font-size: 3.5rem;
+    }
 }
 
-h1.top span {
-    display: inline-block;
-    transition: transform 0.3s ease-in-out;
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-content, .right-content {
+        width: 100%;
+    }
+
+    .right-content {
+        order: 1;
+        margin-bottom: 2rem;
+    }
+
+    .left-content {
+        order: 2;
+    }
+
+    .card {
+        max-width: none;
+    }
+
+    .btn-group button {
+        width: 120px;
+        font-size: 0.9rem;
+    }
+
+    h1.top {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
 }
-
-h1.top:hover span {
-    transform: scale(1.1);
-}
-
-

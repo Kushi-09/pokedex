@@ -1,75 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Card from "./Card";
 import Pokeinfo from "./Pokeinfo";
 import axios from "axios";
+import useScrollRestoration from "./useScrollRestoration";
+import './style.css'; // Import the CSS file
 
 const Main = () => {
     const [pokeData, setPokeData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
-    const [nextUrl, setNextUrl] = useState();
-    const [prevUrl, setPrevUrl] = useState();
-    const [pokeDex, setPokeDex] = useState();
+    const [loading, setLoading] = useState(false);
+    const [nextUrl, setNextUrl] = useState("https://pokeapi.co/api/v2/pokemon/?limit=20");
+    const [pokeDex, setPokeDex] = useState(null);
 
-    const pokeFun = async () => {
+    // Function to fetch Pokémon data
+    const fetchPokemonData = async () => {
         setLoading(true);
-        const res = await axios.get(url);
-        setNextUrl(res.data.next);
-        setPrevUrl(res.data.previous);
-        await getPokemon(res.data.results);
-        setLoading(false);
+        try {
+            const res = await axios.get(nextUrl);
+            setNextUrl(res.data.next);
+            const newPokeData = await getPokemon(res.data.results);
+            setPokeData(prevData => {
+                const newPokemonSet = new Set(prevData.map(poke => poke.id));
+                const uniqueNewPokeData = newPokeData.filter(poke => !newPokemonSet.has(poke.id));
+                return [...prevData, ...uniqueNewPokeData];
+            });
+            if (!pokeDex && newPokeData.length > 0) {
+                setPokeDex(newPokeData[0]); // Set the first Pokémon as the default
+            }
+        } catch (error) {
+            console.error("Error fetching Pokémon data: ", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const getPokemon = async (res) => {
-        const promises = res.map(item => axios.get(item.url));
-        const results = await Promise.all(promises);
-
-        const newPokeData = results.map(result => result.data);
-        newPokeData.sort((a, b) => (a.id > b.id ? 1 : -1));
-
-        setPokeData(newPokeData);
+    // Function to fetch detailed Pokémon data
+    const getPokemon = async (results) => {
+        const promises = results.map(item => axios.get(item.url));
+        const responses = await Promise.all(promises);
+        return responses.map(response => response.data);
     };
 
+    // Handle scroll event to trigger fetching more data
+    const handleScroll = useCallback(() => {
+        const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (bottom && nextUrl && !loading) {
+            fetchPokemonData();
+        }
+    }, [loading, nextUrl]);
+
+    // Attach and clean up scroll event listener
     useEffect(() => {
-        pokeFun();
-    }, [url]);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]);
+
+    // Initial data fetch
+    useEffect(() => {
+        fetchPokemonData();
+    }, []);
+
+    // Custom hook for scroll restoration
+    useScrollRestoration();
 
     return (
-        
-        <><div><h1 className="top">POKEDEX</h1></div>
+        <>
+            <div><h1 className="top">POKEDEX</h1></div>
             <div className="container">
-                
                 <div className="left-content">
                     <Card pokemon={pokeData} loading={loading} infoPokemon={poke => setPokeDex(poke)} />
-                    <div className="btn-group">
-                        {prevUrl && (
-                            <button
-                                onClick={() => {
-                                    setPokeData([]);
-                                    setUrl(prevUrl);
-                                }}
-                            >
-                                Previous
-                            </button>
-                        )}
-                        {nextUrl && (
-                            <button
-                                onClick={() => {
-                                    setPokeData([]);
-                                    setUrl(nextUrl);
-                                }}
-                            >
-                                Next
-                            </button>
-                        )}
-                    </div>
                 </div>
                 <div className="right-content">
-                    <Pokeinfo data={pokeDex} />
+                    {pokeDex && <Pokeinfo data={pokeDex} />}
                 </div>
             </div>
+            {loading && <div className="loading">Loading...</div>}
         </>
     );
 };
 
-export default Main;
+export default React.memo(Main);
